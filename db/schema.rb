@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 2020_07_26_171010) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "members", force: :cascade do |t|
-    t.integer "tenant_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "tenant_id", null: false
+    t.bigint "user_id", null: false
     t.string "first_name"
     t.string "last_name"
     t.datetime "created_at", precision: 6, null: false
@@ -33,7 +36,7 @@ ActiveRecord::Schema.define(version: 2020_07_26_171010) do
   end
 
   create_table "tenants", force: :cascade do |t|
-    t.integer "tenant_id", null: false
+    t.bigint "tenant_id"
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -43,8 +46,8 @@ ActiveRecord::Schema.define(version: 2020_07_26_171010) do
   end
 
   create_table "tenants_users", id: false, force: :cascade do |t|
-    t.integer "tenant_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "tenant_id", null: false
+    t.bigint "user_id", null: false
     t.index ["tenant_id", "user_id"], name: "index_tenants_users_on_tenant_id_and_user_id"
   end
 
@@ -59,7 +62,7 @@ ActiveRecord::Schema.define(version: 2020_07_26_171010) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.boolean "skip_confirm_change_password", default: false
-    t.integer "tenant_id"
+    t.bigint "tenant_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
