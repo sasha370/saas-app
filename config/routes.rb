@@ -1,9 +1,19 @@
 Rails.application.routes.draw do
+  root :to => "home#index"
 
+
+  # resources :tenants do
+  #   resources :projects do
+  #     get 'users', on: :member
+  #     put 'add_user', on: :member
+  #   end
+  # end
+
+  # Переадресация из MILIA, т.к. она автоматическпи пересылает на welcome после входа
+  get 'welcome', to: 'home#index'
 
   resources :members
-  root :to => "home#index"
-    
+
 
   # *MUST* come *BEFORE* devise's definitions (below)
   as :user do   
@@ -11,10 +21,10 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, :controllers => { 
-    :registrations => "milia/registrations",
+    :registrations => "registrations",
     :confirmations => "confirmations",
-    :sessions => "milia/sessions", 
-    :passwords => "milia/passwords", 
+    :sessions => "milia/sessions",
+    :passwords => "milia/passwords"
   }
 
 
