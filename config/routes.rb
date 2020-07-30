@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
+  resources :projects
   root :to => "home#index"
 
-
-  # resources :tenants do
-  #   resources :projects do
-  #     get 'users', on: :member
-  #     put 'add_user', on: :member
-  #   end
-  # end
+  # Такое вложение позволяет делать URL вида tenant#/project# , т.е. одной организации может принадлежать несколько проектов
+  resources :tenants do
+    resources :projects do
+      get 'users', on: :member
+      put 'add_user', on: :member
+    end
+  end
 
   # Переадресация из MILIA, т.к. она автоматическпи пересылает на welcome после входа
   get 'welcome', to: 'home#index'
