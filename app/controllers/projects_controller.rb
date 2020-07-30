@@ -1,5 +1,10 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  # Перед всеми экшенами над Project нам нужно выбрать Организацию
+  before_action :set_tenant, only: [:show, :edit, :update, :destroy, :new, :create]
+  # Перед любым действием нам надо убедится, что Данные проект принадлежит именно даннной Организации
+  before_action :verify_tenant
+
 
   # GET /projects
   # GET /projects.json
@@ -28,11 +33,9 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
-        format.json { render :show, status: :created, location: @project }
+        format.html { redirect_to root_url, notice: 'Project was successfully created.' }
       else
         format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -42,11 +45,9 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
-        format.json { render :show, status: :ok, location: @project }
+        format.html { redirect_to root_url, notice: 'Project was successfully updated.' }
       else
         format.html { render :edit }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,19 +57,33 @@ class ProjectsController < ApplicationController
   def destroy
     @project.destroy
     respond_to do |format|
-      format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+      format.html { redirect_to root_url, notice: 'Project was successfully destroyed.' }
+     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def project_params
-      params.require(:project).permit(:title, :details, :expected_completion, :tenant_id)
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    @project = Project.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def project_params
+    params.require(:project).permit(:title, :details, :expected_completion, :tenant_id)
+  end
+
+
+  # Ищем Организацию по переданному в параметрах ID
+  def set_tenant
+    @tenant = Tenant.find(params[:tenant_id])
+  end
+
+  # До тех порк пока Текущая организация небудет совпадать с переданной, перенаправляем и сообщаем ощибку
+  def verify_tenant
+    unless params[:tenant_id] == Tenant.current_tenant_id.to_s
+      redirect_to :root, flash: { error: "Вы не можете просматривать проекты других организаций" }
     end
+  end
+
 end
