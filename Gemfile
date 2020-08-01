@@ -11,6 +11,8 @@ gem 'milia', '~>1.3', :git => 'https://github.com/yshmarov/milia.git'
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'devise-bootstrap-views'
 gem 'pg'
+gem 'jquery-ui-rails'
+
 gem 'bootstrap-datepicker-rails'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
@@ -19,7 +21,7 @@ gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+# gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
