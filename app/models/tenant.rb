@@ -5,13 +5,15 @@ class Tenant < ActiveRecord::Base
   has_many :projects, dependent: :destroy
   has_one :payment
   accepts_nested_attributes_for :payment
-  
-  def can_create_projects?
-    (plan == 'free' && projects.count < 1) || (plan == 'premium')  
-  end
-  
   validates_uniqueness_of :name
   validates_presence_of :name
+
+  # Проверяем может ли User создать новый проект
+  # Если план = free и число проектов меньше 1  ИЛИ плвн = премиум
+  def can_create_projects?
+    (plan == 'free' && projects.count < 1) || (plan == 'premium')
+  end
+
     def self.create_new_tenant(tenant_params, user_params, coupon_params)
 
       tenant = Tenant.new(tenant_params)
