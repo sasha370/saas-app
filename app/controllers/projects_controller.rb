@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
     # @project.users << current_user
     respond_to do |format|
       if @project.save
-        format.html { redirect_to root_url, notice: 'Project was successfully created.' }
+        format.html { redirect_to root_url, notice: 'Проект успешно создан' }
       else
         format.html { render :new }
       end
@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to root_url, notice: 'Project was successfully updated.' }
+        format.html { redirect_to root_url, notice: 'Проект успешно обновлен' }
       else
         format.html { render :edit }
       end
@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
   def destroy
     @project.destroy
     respond_to do |format|
-      format.html { redirect_to root_url, notice: 'Project was successfully destroyed.' }
+      format.html { redirect_to root_url, notice: 'Проект успешно удален' }
       format.json { head :no_content }
     end
   end
@@ -70,10 +70,10 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project_user.save
         format.html { redirect_to users_tenant_project_url(id: @project.id, tenant_id: @project.tenant_id),
-                                  notice: "User was successfully added to project" }
+                                  notice: "Пользователь успешно добавлен к проекту" }
       else
         format.html { redirect_to users_tenant_project_url(id: @project.id, tenant_id: @project.tenant_id),
-                                  error: "User was not added to project" }
+                                  error: "Пользователь НЕ добавлен к проекту" }
       end
     end
   end
@@ -86,7 +86,7 @@ class ProjectsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def project_params
-    params.require(:project).permit(:title, :details, :expected_completion_date, :tenant_id)
+    params.require(:project).permit(:title, :details, :expected_completion, :tenant_id)
   end
 
   def set_tenant
