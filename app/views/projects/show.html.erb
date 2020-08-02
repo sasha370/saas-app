@@ -12,8 +12,14 @@
   <dd><%= @project.details %></dd>
   <dt><strong><%= model_class.human_attribute_name(:expected_completion) %>:</strong></dt>
   <dd><%= @project.expected_completion %></dd>
-
 </dl>
+
+<h3> Вложения </h3>
+<%= render 'artifacts/list', artifacts: @project.artifacts %>
+<br/>
+<br/>
+
+
 
 <%= link_to '< Back to Organization Home',
               root_path, class: 'btn btn-default' %>

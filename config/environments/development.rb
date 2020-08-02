@@ -8,6 +8,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.delivery_method = :smtp
+  config.active_storage.service = :local
 
   ActionMailer::Base.smtp_settings = {
     :address => "smtp.gmail.com",

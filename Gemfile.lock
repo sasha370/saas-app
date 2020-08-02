@@ -1181,6 +1181,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-session_store!
   aws-sdk
+  aws-sdk-s3
   bootsnap (>= 1.4.2)
   bootstrap4-datetime-picker-rails
   byebug
