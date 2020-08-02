@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :projects
-  root :to => "home#index"
+  root "home#index"
 
   # Такое вложение позволяет делать URL вида tenant#/project# , т.е. одной организации может принадлежать несколько проектов
   resources :tenants do
@@ -27,7 +27,6 @@ Rails.application.routes.draw do
     :sessions => "milia/sessions",
     :passwords => "milia/passwords"
   }
-
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
