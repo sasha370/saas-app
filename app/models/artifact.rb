@@ -22,9 +22,11 @@ class Artifact < ApplicationRecord
   end
 
   def upload_to_s3
-    s3 = Aws::S3::Resource.new(region:'us-east-1')
+    s3 = Aws::S3::Resource.new(region:'us-east-1',
+                               access_key_id: Rails.application.credentials.aws[:access_key_id],
+                               secret_access_key:  Rails.application.credentials.aws[:secret_access_key] )
     tenant_name = Tenant.find(Thread.current[:tenant_id]).name
-    obj = s3.bucket(ENV['AWS_BUCKET']).object("#{tenant_name}/#{upload.original_filename}")
+    obj = s3.bucket('saasfile').object("#{tenant_name}/#{upload.original_filename}")
     obj.upload_file(upload.path, acl: 'public-read')
     self.key = obj.public_url
   end
