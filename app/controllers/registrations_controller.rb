@@ -92,7 +92,7 @@ class RegistrationsController < Milia::RegistrationsController
   # ------------------------------------------------------------------------------
   # ------------------------------------------------------------------------------
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) + ::Milia.whitelist_user_params
+    devise_parameter_sanitizer.for(:sign_up)
   end
 
   # ------------------------------------------------------------------------------
