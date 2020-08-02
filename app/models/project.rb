@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
   belongs_to :tenant
   validates_uniqueness_of :title
+
   has_many :user_projects
   has_many :users, through: :user_projects
   validate :free_plan_can_only_have_one_project
@@ -8,7 +9,7 @@ class Project < ApplicationRecord
 
   def free_plan_can_only_have_one_project
     if self.new_record? && (tenant.projects.count > 0) && (tenant.plan == 'free')
-      errors.add(:base, "Free plans cannot have more than one project")
+      errors.add(:base, "На БЕСПЛАТНОМ тарифе у вас может быть только один проект")
     end
   end
 
