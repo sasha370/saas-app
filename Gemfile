@@ -13,7 +13,7 @@ gem 'devise-bootstrap-views'
 gem 'pg'
 gem 'jquery-ui-rails'
 
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap4-datetime-picker-rails'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
