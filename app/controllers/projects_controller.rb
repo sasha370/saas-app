@@ -5,6 +5,8 @@ class ProjectsController < ApplicationController
 
   # GET /projects
   # GET /projects.json
+  #
+  # Отобразить проекты согласно тарифу
   def index
     @projects = Project.by_user_plan_and_tenant(params[:tenant_id], current_user)
   end
@@ -59,12 +61,18 @@ class ProjectsController < ApplicationController
     end
   end
 
+
+  # Список Пользователей по текущему проекту
+
   def users
+    # Все пользователи проекта + Админы - текущий пользователь
     @project_users = (@project.users + (User.where(tenant_id: @tenant.id, is_admin: true))) - [current_user]
+
     @other_users = @tenant.users.where(is_admin: false) - (@project_users + [current_user])
   end
 
   def add_user
+
     @project_user = UserProject.new(user_id: params[:user_id], project_id: @project.id)
 
     respond_to do |format|
@@ -79,24 +87,32 @@ class ProjectsController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
+  #Выбрать проект для методов, в которых понадобится его тображение через вьюхи
   def set_project
     @project = Project.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
+
+  # WhiteList для параметров из формы
   def project_params
     params.require(:project).permit(:title, :details, :expected_completion, :tenant_id)
   end
 
+
+
+  # Выбрать в начале олюбого Экшена организацию.
   def set_tenant
     @tenant = Tenant.find(params[:tenant_id])
   end
 
+
+  # Перед отображение проверить имеется ли доступ у пользователя к данной организации
   def verify_tenant
+
     unless params[:tenant_id] == Tenant.current_tenant_id.to_s
       redirect_to :root,
-                  flash: { error: 'You are not authorized to access any organization other than your own'}
+                  flash: { error: 'Вы не можете просматривать другие организации'}
     end
   end
 end

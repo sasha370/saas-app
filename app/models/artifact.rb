@@ -1,10 +1,12 @@
 class Artifact < ApplicationRecord
-  require 'aws-sdk'
-  attr_accessor :upload
 
+  attr_accessor :upload
+  # Принадлежит Project
   belongs_to :project
+  # Перед сохранение в БД сделать загрузку на сервер s3
   before_save :upload_to_s3
 
+  # Максимальный размер загружаемого файла
   MAX_FILESIZE = 10.megabytes
   # Проверяем наличие названия и файла для загрузки
   validates_presence_of :name, :upload
@@ -22,12 +24,19 @@ class Artifact < ApplicationRecord
   end
 
   def upload_to_s3
+    # создаем новый ресурс для загрузки на s3
     s3 = Aws::S3::Resource.new(region:'us-east-1',
                                access_key_id: Rails.application.credentials.aws[:access_key_id],
                                secret_access_key:  Rails.application.credentials.aws[:secret_access_key] )
+    # создаем имя для файла = имя Организации
     tenant_name = Tenant.find(Thread.current[:tenant_id]).name
+
+    # создаем объект на сервере, для каждой организации в своей папке
     obj = s3.bucket('saasfile').object("#{tenant_name}/#{upload.original_filename}")
+
+
     obj.upload_file(upload.path, acl: 'public-read')
+    # присваимем key адрес ссылки
     self.key = obj.public_url
   end
 

@@ -1,9 +1,19 @@
 Rails.application.routes.draw do
+  # Полный список путей для
   resources :artifacts
   resources :projects
+  resources :members
+
+  # Главная страница по адресу
   root "home#index"
 
+  # Переадресация из MILIA, т.к. она автоматическпи пересылает на welcome после входа
+  get 'welcome', to: 'home#index'
+
+
+
   # Такое вложение позволяет делать URL вида tenant#/project# , т.е. одной организации может принадлежать несколько проектов
+
   resources :tenants do
     resources :projects do
       get 'users', on: :member
@@ -11,17 +21,14 @@ Rails.application.routes.draw do
     end
   end
 
-  # Переадресация из MILIA, т.к. она автоматическпи пересылает на welcome после входа
-  get 'welcome', to: 'home#index'
-
-  resources :members
-
 
   # *MUST* come *BEFORE* devise's definitions (below)
   as :user do   
     match '/user/confirmation' => 'confirmations#update', :via => :put, :as => :update_user_confirmation
   end
 
+
+  # Для User испоьзуются следующие контроллеры
   devise_for :users, :controllers => { 
     :registrations => "registrations",
     :confirmations => "confirmations",

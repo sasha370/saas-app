@@ -1,5 +1,7 @@
 class RegistrationsController < Milia::RegistrationsController
-
+  # Базовый контроллер Milia,  в самом низу отключен метод, который принимла несуществующий параметр Milia_Whitelisе_user_
+  #
+  #
   skip_before_action :authenticate_tenant!, :only => [:new, :create, :cancel]
 
   # ------------------------------------------------------------------------------

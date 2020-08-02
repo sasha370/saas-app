@@ -1,12 +1,15 @@
 class Member < ActiveRecord::Base
    
   belongs_to :user
+  # связывает все поля с Tenant
   acts_as_tenant
+
 
   DEFAULT_ADMIN = {
     first_name: "Admin",
     last_name:  "Please edit me"
   }
+
 
   def self.create_new_member(user, params)
     # add any other initialization for a new member

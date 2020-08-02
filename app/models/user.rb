@@ -4,11 +4,17 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable,  :validatable
 
+  # Использовать кау основной Акк для Milia
   acts_as_universal_and_determines_account
+  # Имеет одного Зарегистрированного, наследует Удаление
   has_one :member, :dependent => :destroy
+  # User имеет множество взаимосвязей UserПроект
   has_many :user_projects
+  # User имеет множество проектов, через UserПроект
   has_many :projects, through: :user_projects
-  
+
+
+
   def is_admin?
     is_admin
   end
