@@ -12,7 +12,7 @@ gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootst
 gem 'devise-bootstrap-views'
 gem 'pg'
 gem 'jquery-ui-rails'
-
+gem 'aws-sdk'
 gem 'bootstrap4-datetime-picker-rails'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
