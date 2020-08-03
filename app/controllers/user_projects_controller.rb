@@ -29,10 +29,10 @@ class UserProjectsController < ApplicationController
     respond_to do |format|
       if @user_project.save
         format.html { redirect_to @user_project, notice: 'User project was successfully created.' }
-        format.json { render :show, status: :created, location: @user_project }
+
       else
         format.html { render :new }
-        format.json { render json: @user_project.errors, status: :unprocessable_entity }
+
       end
     end
   end
@@ -43,10 +43,10 @@ class UserProjectsController < ApplicationController
     respond_to do |format|
       if @user_project.update(user_project_params)
         format.html { redirect_to @user_project, notice: 'User project was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user_project }
+
       else
         format.html { render :edit }
-        format.json { render json: @user_project.errors, status: :unprocessable_entity }
+
       end
     end
   end
