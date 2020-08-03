@@ -26,8 +26,8 @@ class Artifact < ApplicationRecord
   def upload_to_s3
     # создаем новый ресурс для загрузки на s3
     s3 = Aws::S3::Resource.new(region:'us-east-1',
-                               access_key_id: Rails.application.credentials.aws[:access_key_id],
-                               secret_access_key:  Rails.application.credentials.aws[:secret_access_key] )
+                               access_key_id: ENV['AWS_ACCESS_KEY_ID'] || Rails.application.credentials.aws[:access_key_id],
+                               secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'] || Rails.application.credentials.aws[:secret_access_key] )
     # создаем имя для файла = имя Организации
     tenant_name = Tenant.find(Thread.current[:tenant_id]).name
 
