@@ -34,15 +34,17 @@ class RegistrationsController < Milia::RegistrationsController
             @payment = Payment.new({ email: user_params["email"],
                                      token: params[:payment]["token"],
                                      tenant: @tenant })
-            flash[:error] = "Please check registration errors" unless @payment.valid?
+
+
+            flash[:error] = "Пожалуйста, проверьте корректность заполнения " unless @payment.valid?
 
             begin
               @payment.process_payment
               @payment.save
             rescue Exception => e
               flash[:error] = e.message
-              @tenant.destroy
-              log_action("Payment failed")
+              resource.destroy
+              puts "Оплата провалена"
               render :new and return
             end
           end
@@ -50,7 +52,7 @@ class RegistrationsController < Milia::RegistrationsController
           resource.valid?
           log_action("tenant create failed", @tenant)
           render :new
-        end # if .. then .. else no tenant errors
+        end
 
         if flash[:error].blank? || flash[:error].empty? #payment successful
           initiate_tenant(@tenant) # first time stuff for new tenant
@@ -71,6 +73,7 @@ class RegistrationsController < Milia::RegistrationsController
           resource.valid?
           log_action("Payment processing failed", @tenant)
           render :new and return
+
         end # if.. then .. else no tenant errors
       end #  wrap tenant/user creation in a transaction
     else
@@ -80,6 +83,7 @@ class RegistrationsController < Milia::RegistrationsController
       @tenant.valid?
       log_action("recaptcha failed", resource)
       render :new
+
     end
 
   end
@@ -93,9 +97,9 @@ class RegistrationsController < Milia::RegistrationsController
 
   # ------------------------------------------------------------------------------
   # ------------------------------------------------------------------------------
-  # def configure_permitted_parameters
-  #   devise_parameter_sanitizer.for(:sign_up)
-  # end
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up).push(:payment)
+  end
 
   # ------------------------------------------------------------------------------
   # ------------------------------------------------------------------------------
@@ -160,22 +164,19 @@ class RegistrationsController < Milia::RegistrationsController
     end
   end
 
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
+
   def after_sign_up_path_for(resource)
     headers['refresh'] = "0;url=#{root_path}"
     root_path
   end
 
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
+
   def after_inactive_sign_up_path_for(resource)
     headers['refresh'] = "0;url=#{root_path}"
     root_path
   end
 
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
+
 
   def log_action(action, resource = nil)
     err_msg = (resource.nil? ? '' : resource.errors.full_messages.uniq.join(", "))
@@ -184,10 +185,5 @@ class RegistrationsController < Milia::RegistrationsController
     ) unless logger.nil?
   end
 
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
-
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
 
 end # class Registrations

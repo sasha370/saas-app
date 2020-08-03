@@ -1,6 +1,5 @@
 class Plan
 
-
   PLANS = [:free, :premium]
 
   def self.options
