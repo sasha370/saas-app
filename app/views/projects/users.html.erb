@@ -6,7 +6,7 @@
   <thead>
   <tr>
     <th>Email</th>
-    <th><%= t '.action', :default => t("helpers.actions") %></th>
+    <th>Действие</th>
   </tr>
   </thead>
 
@@ -16,11 +16,11 @@
       <td><%= project_user.email %>   </td>
       <td>
         <% if !project_user.is_admin? %>
-          <%= link_to "Удалить", user_project_path(project_user.user_projects.find_by(project_id: @project.id,
-                                                                             tenant_id: @project.tenant_id),
-                                                   :method => :delete,
-                                                   :data => { confirm => t('.confirm', :default => t("helpers.links.confirm", :default => "Вы  уверены?")) },
-                                                   class: 'btn btn-xs btn-danger') %>
+          <%= link_to "Удалить", user_project_path(project_user.user_projects.find_by(project_id: @project.id),
+                                                  tenant_id: @project.tenant_id),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-xs btn-danger' %>
         <% end %>
       </td>
     </tr>
@@ -28,6 +28,8 @@
   </tbody>
 </table>
 
+<br/>
+<br/>
 
 <h3>Пользователи, которых можно добавить в проект:  <%= @project.title %></h3>
 <strong>(Админа добавлять не нужно)</strong>
@@ -35,15 +37,16 @@
   <thead>
   <tr>
     <th>Email</th>
-    <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    <th>Действие</th>
   </tr>
   </thead>
+
   <tbody>
   <% @other_users.each do |other_user| %>
     <tr>
       <td><%= other_user.email %></td>
       <td>
-        <%= link_to 'Add',
+        <%= link_to 'Добавить',
                     add_user_tenant_project_path(id: @project.id, tenant_id: @project.tenant_id, user_id: other_user.id),
                     :method => :put,
                     :class => 'btn btn-xs btn-success' %>

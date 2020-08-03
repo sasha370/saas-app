@@ -69,6 +69,7 @@ class ProjectsController < ApplicationController
     # Все пользователи проекта + Админы - текущий пользователь
     @project_users = (@project.users + (User.where(tenant_id: @tenant.id, is_admin: true))) - [current_user]
 
+    # Все Польбзователи ОРГАНИЗАЦИИ ( нетекущий и не админы)
     @other_users = @tenant.users.where(is_admin: false) - (@project_users + [current_user])
   end
 

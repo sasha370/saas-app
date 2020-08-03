@@ -13,7 +13,7 @@
 
         <% if current_user && current_user.is_admin? %>
           <li>
-            <%= link_to "<i class='fa fa-users'></i> Добавить участника".html_safe,
+            <%= link_to "<i class='fa fa-users'></i> Пригласить в команду".html_safe,
                         new_member_path,
                         class: 'navbar-link btn btn-primary' %>
           </li>
@@ -30,13 +30,13 @@
 
         <% if current_user%>
           <li class="col-md-8 user-name">
-            <%= link_to ('<i class="fa fa-user"></i> ' + truncate(current_user.email, length: 25)).html_safe, edit_user_registration_path, title: 'Edit Profile' %>
+            <%= link_to ('<i class="fa fa-user"></i> ' + truncate(current_user.email, length: 25)).html_safe, edit_user_registration_path, title: 'Редактировать профиль' %>
           </li>
           <li class="col-md-1"></li>
-          <li class="col-md-3 logout"><%= link_to('Logout', destroy_user_session_path, class: 'btn btn-xs btn-danger', title: 'Logout', :method => :delete) %></li>
+          <li class="col-md-3 logout"><%= link_to('Выйти', destroy_user_session_path, class: 'btn btn-xs btn-danger', title: 'Выйти', :method => :delete) %></li>
         <% else %>
           <li class="col-md-4 pull-right">
-            <%= link_to('Sign In', new_user_session_path, class: 'btn btn-primary', title: 'Sign In') %>
+            <%= link_to('Войти', new_user_session_path, class: 'btn btn-primary', title: 'Войти') %>
           </li>
         <% end %>
       </ul>

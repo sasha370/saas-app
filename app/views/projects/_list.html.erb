@@ -29,7 +29,7 @@
                       tenant_project_path(project, tenant_id: @tenant.id), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_tenant_project_path(project, tenant_id: @tenant.id), :class => 'btn btn-default btn-xs' %>
-          <%= link_to 'Редактировать пользователей', user_tenant_project_path(project, tenant_id: @tenant.id),
+          <%= link_to 'Редактировать пользователей', users_tenant_project_path(project, tenant_id: @tenant.id),
                       class: 'btn btn-default btn-xs' %>
 
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
