@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
 
 # Проверяем админ ли пользователь? Возвращает true /false
-  def is_admin?
+  def self.is_admin?
     is_admin
   end
 
