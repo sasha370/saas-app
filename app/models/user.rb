@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :payment
 
 
-
+# Проверяем админ ли пользователь? Возвращает true /false
   def is_admin?
     is_admin
   end
