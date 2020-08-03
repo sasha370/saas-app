@@ -1,0 +1,64 @@
+<!--При регистрацинам нужно передать открытый ключ, который привяжется к оплате
+т.к. мы работаем с Payment-->
+<script language="JavaScript">
+    Stripe.setPublishableKey('<%= (ENV['STRIPE_TEST_PUBLISHABLE_KEY'] ||= Rails.application.credentials.stripe[:test_publishable_key].to_s )%>');
+</script>
+
+<!--Форма для Tenant? переходит по пути ( ОБНОВИТЬ), класс формы вставляется из Helpera-->
+<%= form_for @tenant, url: update_plan_path, html: { class: "#{class_name_for_tenant_form(@tenant)}" } do |f| %>
+
+  <div class="form-group col-md-12 no-side-padding">
+    <span class='description'> <%= f.label :name, 'Organization' %> (Уникальное имя организации или команды)</span>
+    <%= f.text_field :name, required: true, class: "form-control" %>
+  </div>
+
+
+<!--  Поле для выбора тарифа, если переключаться на premium? то должны поялвляться поля для оплаты -->
+  <div class="form-group col-md-12 no-side-padding">
+    <%= f.label :plan %>
+    <%= f.select :plan, options_for_select(Plan.options, @tenant.plan), {}, require: true, class: "form-control" %>
+  </div>
+
+
+
+
+  <!--  Если Оплат небыло то показываем форму для оплаты-->
+  <% if @tenant.payment.blank? %>
+    <%= fields_for(:payment) do |p| %>
+
+      <div class="col-md-12">
+        <div class="form-group col-md-4 no-left-padding">
+          <%= p.label :card_number, "Номер карты", data: { stripe: 'label' } %>
+          <%= p.text_field :card_number, class: "form-control", require: true, data: { stripe: 'number' } %>
+        </div>
+        <div class="form-group col-md-2">
+          <%= p.label :card_cvv, "CVV карты", data: { stripe: 'label' } %>
+          <%= p.text_field :card_cvv, class: "form-control", require: true, data: { stripe: 'cvv' } %>
+        </div>
+
+        <div class="form-group col-md-6">
+          <div class="col-md-12">
+            <%= p.label :card_expires, "Действительно до:", data: { stripe: 'label' } %>
+          </div>
+          <div class="col-md-3">
+            <%= p.select :card_expires_month, options_for_select(Payment.month_options),
+                         { include_blank: 'Месяц' },
+                         data: { stripe: "exp-month" },
+                         class: "form-control", required: true %>
+          </div>
+          <div class="col-md-3">
+            <%= p.select :card_expires_year, options_for_select(Payment.year_options),
+                         { include_blank: 'Год' },
+                         data: { stripe: "exp-year" },
+                         class: "form-control", required: true %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+  <br/>
+
+  <div class="col-md-12">
+    <%= f.submit "Обновить тариф", class: "btn btn-primary", id: 'update_plan' %>
+  </div>
+<% end %>

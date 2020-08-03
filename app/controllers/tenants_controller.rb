@@ -1,12 +1,14 @@
 class TenantsController < ApplicationController
   before_action :set_tenant
 
+  # Экшн для изменения Тарифа, который привязан к Tenant
   def edit
-end
+  end
 
   def update
     respond_to do |format|
       Tenant.transaction do
+
         if @tenant.update(tenant_params)
           if @tenant.plan == "premium" && @tenant.payment.blank?
 
@@ -24,7 +26,7 @@ end
               redirect_to edit_tenant_path(@tenant) and return
             end
           end
-          format.html { redirect_to edit_plan_path, notice: "Plan was successfully updated" }
+          format.html { redirect_to edit_plan_path, notice: "Тариф был успешно обновлен" }
         else
           format.html { render :edit }
         end
