@@ -29,7 +29,8 @@ class ProjectsController < ApplicationController
   # POST /projects.json
   def create
     @project = Project.new(project_params)
-    # @project.users << current_user
+    # Как только создали проект, сразу подгружаем в его пользователи текущего пользователя
+    @project.users << current_user
     respond_to do |format|
       if @project.save
         format.html { redirect_to root_url, notice: 'Проект успешно создан' }
@@ -72,8 +73,9 @@ class ProjectsController < ApplicationController
   end
 
   def add_user
-
+    # Создаем нового члена команды
     @project_user = UserProject.new(user_id: params[:user_id], project_id: @project.id)
+
 
     respond_to do |format|
       if @project_user.save

@@ -51,6 +51,7 @@
         <%= p.label :card_number, "Номер карты", data: { stripe: 'label' } %>
         <%= p.text_field :card_number, class: "form-control", require: true, data: { stripe: 'number' } %>
       </div>
+
       <div class="form-group col-md-2">
         <%= p.label :card_cvv, "CVV карты", data: { stripe: 'label' } %>
         <%= p.text_field :card_cvv, class: "form-control", require: true, data: { stripe: 'cvv' } %>
@@ -60,18 +61,21 @@
         <div class="col-md-12">
           <%= p.label :card_expires, "Действительно до:", data: { stripe: 'label' } %>
         </div>
+
         <div class="col-md-3">
           <%= p.select :card_expires_month, options_for_select(Payment.month_options),
                        { include_blank: 'Месяц' },
                        data: { stripe: "exp-month" },
-                       class: "form-control", required: true %>
+                       class: "form-control", require: true %>
         </div>
+
         <div class="col-md-3">
           <%= p.select :card_expires_year, options_for_select(Payment.year_options),
                        { include_blank: 'Год' },
                        data: { stripe: "exp-year" },
-                       class: "form-control", required: true %>
+                       class: "form-control", require: true %>
         </div>
+
       </div>
     </div>
   <% end %>
