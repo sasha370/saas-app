@@ -1,11 +1,12 @@
-class CreateTenants < ActiveRecord::Migration[6.0]
+class CreateTenants < ActiveRecord::Migration
   def change
     create_table :tenants do |t|
-      t.references :tenant,  index: true, foreign_key: true
+      t.references :tenant, index: true, foreign_key: true
       t.string :name
 
-      t.timestamps
+      t.timestamps null: false
     end
     add_index :tenants, :name
   end
 end
+

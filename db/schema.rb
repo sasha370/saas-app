@@ -105,5 +105,5 @@ ActiveRecord::Schema.define(version: 2020_08_02_154954) do
   add_foreign_key "members", "users"
   add_foreign_key "payments", "tenants"
   add_foreign_key "projects", "tenants"
-  add_foreign_key "tenants", "tenants"
+  add_foreign_key "tenants", "tenants", on_update: :restrict
 end
