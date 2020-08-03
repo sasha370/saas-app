@@ -1146,9 +1146,13 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stripe (5.22.0)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    turbolinks (5.2.1)
+      turbolinks-source (~> 5.2)
+    turbolinks-source (5.2.0)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     tzinfo-data (1.2020.1)
@@ -1198,6 +1202,8 @@ DEPENDENCIES
   rails_12factor
   sass-rails (>= 6)
   selenium-webdriver
+  stripe
+  turbolinks (~> 5)
   twitter-bootstrap-rails!
   tzinfo-data
   web-console (>= 3.3.0)

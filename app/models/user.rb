@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   has_many :user_projects
   # User имеет множество проектов, через UserПроект
   has_many :projects, through: :user_projects
+  # Имеют один Платеж, делят некоторые атрибуты с Платежем
+  has_one :payment
+  accepts_nested_attributes_for :payment
 
 
 
