@@ -26,18 +26,24 @@ class Project < ApplicationRecord
   # Метод возвращает список проектов  Используется в _List вьюхе
   def self.by_user_plan_and_tenant(tenant_id, user)
     tenant = Tenant.find(tenant_id)
+
+    # В тарифе Премиум
     if tenant.plan == 'premium'
-      # if user.is_admin?
+
+      # Если пользователь Админ, то показываем все пректы организации
+      if user.is_admin?
         tenant.projects
-      # else
-      #   user.projects.where(tenant_id: tenant.id)
-      # end
+      else
+        # Если не Админ, то только проекты, где он участник
+        user.projects.where(tenant_id: tenant.id)
+      end
     else
-      # if user.is_admin?
+      # В тарифе Free
+      if user.is_admin?
         tenant.projects.order(:id).limit(1)
-      # else
-      #   user.projects.where(tenant_id: tenant.id).order(:id).limit(1)
-      # end
+      else
+        user.projects.where(tenant_id: tenant.id).order(:id).limit(1)
+      end
     end
   end
 end

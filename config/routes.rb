@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_projects
   # Полный список путей для
   resources :artifacts
   resources :projects
