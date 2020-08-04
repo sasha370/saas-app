@@ -9,6 +9,13 @@ GIT
       railties (>= 5.0, < 7.0)
 
 GIT
+  remote: https://github.com/ojab/bootsnap.git
+  revision: cea275a71740fa0b89c24bf746e1884fe27bd1e8
+  specs:
+    bootsnap (1.3.0.beta2)
+      msgpack (~> 1.0)
+
+GIT
   remote: https://github.com/rails/activerecord-session_store.git
   revision: f188efbc49a522123cc8acc805143824176d01c1
   specs:
@@ -1007,8 +1014,6 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.15)
     bindex (0.8.1)
-    bootsnap (1.4.7)
-      msgpack (~> 1.0)
     bootstrap4-datetime-picker-rails (0.3.1)
       jquery-rails (~> 4.2, >= 4.2.0)
       moment-timezone-rails (~> 1.0)
@@ -1181,7 +1186,7 @@ DEPENDENCIES
   activerecord-session_store!
   aws-sdk
   aws-sdk-s3
-  bootsnap (>= 1.4.2)
+  bootsnap!
   bootstrap4-datetime-picker-rails
   byebug
   capybara (>= 2.15)
