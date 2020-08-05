@@ -14,7 +14,7 @@ gem 'devise-bootstrap-views'
 gem 'pg'
 gem 'jquery-ui-rails'
 gem 'aws-sdk'
-gem 'aws-sdk-s3'
+gem 'aws-sdk-s3', require: false
 gem 'bootstrap4-datetime-picker-rails'
 gem 'stripe'
 # Use Puma as the app server
