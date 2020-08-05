@@ -1,6 +1,6 @@
 <!--При регистрацинам нужно передать открытый ключ, который привяжется к оплате -->
 <script language="JavaScript">
-    Stripe.setPublishableKey('<%= Rails.application.credentials.stripe_p_key %>');
+    Stripe.setPublishableKey('<%= ENV['stripe_p_key'] ||= Rails.application.credentials.stripe_p_key %>');
 </script>
 
 
