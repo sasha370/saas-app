@@ -94,8 +94,10 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    autoprefixer-rails (9.8.6.1)
+      execjs
     aws-eventstream (1.1.0)
-    aws-partitions (1.349.0)
+    aws-partitions (1.351.0)
     aws-sdk (3.0.1)
       aws-sdk-resources (~> 3)
     aws-sdk-accessanalyzer (1.9.0)
@@ -397,7 +399,7 @@ GEM
     aws-sdk-guardduty (1.38.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-health (1.27.0)
+    aws-sdk-health (1.28.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-honeycode (1.0.0)
@@ -943,7 +945,7 @@ GEM
     aws-sdk-sqs (1.30.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-ssm (1.85.0)
+    aws-sdk-ssm (1.86.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-sso (1.6.0)
@@ -1014,6 +1016,10 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.15)
     bindex (0.8.1)
+    bootstrap (4.5.0)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 1.14.3, < 2)
+      sassc-rails (>= 2.0.0)
     bootstrap4-datetime-picker-rails (0.3.1)
       jquery-rails (~> 4.2, >= 4.2.0)
       moment-timezone-rails (~> 1.0)
@@ -1086,6 +1092,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
     pg (1.2.3-x64-mingw32)
+    popper_js (1.16.0)
     public_suffix (4.0.5)
     puma (4.3.5)
       nio4r (~> 2.0)
@@ -1187,6 +1194,7 @@ DEPENDENCIES
   aws-sdk
   aws-sdk-s3
   bootsnap!
+  bootstrap (~> 4.5.0)
   bootstrap4-datetime-picker-rails
   byebug
   capybara (>= 2.15)

@@ -1,7 +1,7 @@
 <!--При регистрацинам нужно передать открытый ключ, который привяжется к оплате
 т.к. мы работаем с Payment-->
 <script language="JavaScript">
-    Stripe.setPublishableKey('<%= (ENV['STRIPE_TEST_PUBLISHABLE_KEY'] ||= Rails.application.credentials.stripe[:test_publishable_key].to_s )%>');
+    Stripe.setPublishableKey('<%= ENV['STRIPE_TEST_PUBLISHABLE_KEY'] %>');
 </script>
 
 <!--Форма для Tenant? переходит по пути ( ОБНОВИТЬ), класс формы вставляется из Helpera-->

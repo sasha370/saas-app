@@ -8,15 +8,12 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
-require("jquery")
-
-
-//= require moment
-//= require tempusdominus-bootstrap-4
+import 'bootstrap'
 import './credit_card_form'
-import "bootstrap"
-// import './bootstrap-datepicker'
+//= require jquery
 
+
+// import './datepicker'
 //= require_tree .
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -25,3 +22,8 @@ import "bootstrap"
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="popover"]').popover()
+})
