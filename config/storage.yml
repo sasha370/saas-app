@@ -7,12 +7,12 @@ local:
   root: <%= Rails.root.join("storage") %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%#= Rails.application.credentials.aws[:access_key_id] %>
-#   secret_access_key: <%#= Rails.application.credentials.aws[:secret_access_key] %>
-#   region: <%#= Rails.application.credentials.aws[:region] %>
-#   bucket: <%#= Rails.application.credentials.aws[:bucket] %>
+ amazon:
+   service: S3
+   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] ||= Rails.application.credentials.aws[:access_key_id] %>
+   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] ||= Rails.application.credentials.aws[:secret_access_key] %>
+   region: 'us-east-1'
+   bucket: 'saasfile'
 
 #   service: S3
 #   access_key_id: <%#=ENV['AWS_ACCESS_KEY_ID']%>
