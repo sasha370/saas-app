@@ -5,10 +5,10 @@ require_relative 'application'
 Rails.application.initialize!
 
 ActionMailer::Base.smtp_settings = {
-    :user_name => '17f28bffeddeab',
-    :password => 'ae5707d8d76166',
+    :user_name => 'a5c30b08ad0ba8',
+    :password => 'ea4616b54388e2',
     :address => 'smtp.mailtrap.io',
     :domain => 'smtp.mailtrap.io',
-    :port => '25',
+    :port => '2525',
     :authentication => :cram_md5
 }
