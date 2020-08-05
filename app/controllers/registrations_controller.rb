@@ -98,9 +98,9 @@ class RegistrationsController < Milia::RegistrationsController
 
   # ------------------------------------------------------------------------------
   # ------------------------------------------------------------------------------
-  # def configure_permitted_parameters
-  #   devise_parameter_sanitizer.for(:sign_up){ |u| u.permit(:name, :email,:plan, :password, :password_confirmation, :token) }
-  # end
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up){ |u| u.permit(:name, :email,:plan, :password, :password_confirmation, :token) }
+  end
 
   # ------------------------------------------------------------------------------
   # ------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ class RegistrationsController < Milia::RegistrationsController
   # ------------------------------------------------------------------------------
   # ------------------------------------------------------------------------------
   def sign_up_params_user()
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:email, :password, :password_confirmation, :token)
   end
 
   # ------------------------------------------------------------------------------
