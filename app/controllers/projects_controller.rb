@@ -3,33 +3,22 @@ class ProjectsController < ApplicationController
   before_action :set_tenant, only: [:show, :edit, :update, :destroy, :new, :create, :users, :add_user]
   before_action :verify_tenant
 
-  # GET /projects
-  # GET /projects.json
-  #
-  # Отобразить проекты согласно тарифу
   def index
     @projects = Project.by_user_plan_and_tenant(params[:tenant_id], current_user)
   end
 
-  # GET /projects/1
-  # GET /projects/1.json
   def show
   end
 
-  # GET /projects/new
   def new
     @project = Project.new
   end
 
-  # GET /projects/1/edit
   def edit
   end
 
-  # POST /projects
-  # POST /projects.json
   def create
     @project = Project.new(project_params)
-    # Как только создали проект, сразу подгружаем в его пользователи текущего пользователя
     @project.users << current_user
     respond_to do |format|
       if @project.save
@@ -40,8 +29,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /projects/1
-  # PATCH/PUT /projects/1.json
   def update
     respond_to do |format|
       if @project.update(project_params)
@@ -52,8 +39,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # DELETE /projects/1
-  # DELETE /projects/1.json
   def destroy
     @project.destroy
     respond_to do |format|
@@ -62,22 +47,13 @@ class ProjectsController < ApplicationController
     end
   end
 
-
-  # Список Пользователей по текущему проекту
-
   def users
-    # Все пользователи проекта + Админы - текущий пользователь
     @project_users = (@project.users + (User.where(tenant_id: @tenant.id, is_admin: true))) - [current_user]
-
-    # Все Польбзователи ОРГАНИЗАЦИИ ( нетекущий и не админы)
     @other_users = @tenant.users.where(is_admin: false) - (@project_users + [current_user])
   end
 
   def add_user
-    # Создаем нового члена команды
     @project_user = UserProject.new(user_id: params[:user_id], project_id: @project.id)
-
-
     respond_to do |format|
       if @project_user.save
         format.html { redirect_to users_tenant_project_url(id: @project.id, tenant_id: @project.tenant_id),
@@ -90,29 +66,20 @@ class ProjectsController < ApplicationController
   end
 
   private
-  #Выбрать проект для методов, в которых понадобится его тображение через вьюхи
+
   def set_project
     @project = Project.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-
-  # WhiteList для параметров из формы
   def project_params
     params.require(:project).permit(:title, :details, :expected_completion, :tenant_id)
   end
 
-
-
-  # Выбрать в начале олюбого Экшена организацию.
   def set_tenant
     @tenant = Tenant.find(params[:tenant_id])
   end
 
-
-  # Перед отображение проверить имеется ли доступ у пользователя к данной организации
   def verify_tenant
-
     unless params[:tenant_id] == Tenant.current_tenant_id.to_s
       redirect_to :root,
                   flash: { error: 'Вы не можете просматривать другие организации'}
