@@ -1,15 +1,12 @@
 class TenantsController < ApplicationController
   before_action :set_tenant
 
-  # Экшн для изменения Тарифа, который привязан к Tenant
   def edit
   end
 
   def update
     respond_to do |format|
       Tenant.transaction do
-
-
         if @tenant.update(tenant_params)
           # Если тариф Премиум и нет оплаты
           if @tenant.plan == "premium" && @tenant.payment.blank?
@@ -38,8 +35,6 @@ class TenantsController < ApplicationController
     end
   end
 
-
-  # Одновление названия организации
   def change
     @tenant = Tenant.find(params[:id])
     Tenant.set_current_tenant @tenant.id
