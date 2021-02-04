@@ -1,28 +1,12 @@
 class RegistrationsController < Milia::RegistrationsController
-  # Базовый контроллер Milia,  в самом низу отключен метод, который принимла несуществующий параметр Milia_Whitelisе_user_
-  #
-  #
   skip_before_action :authenticate_tenant!, :only => [:new, :create, :cancel]
 
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
-  # TODO: options if non-standard path for new signups view
-  # ------------------------------------------------------------------------------
-  # create -- intercept the POST create action upon new sign-up
-  # new tenant account is vetted, then created, then proceed with devise create user
-  # CALLBACK: Tenant.create_new_tenant  -- prior to completing user account
-  # CALLBACK: Tenant.tenant_signup      -- after completing user account
-  # ------------------------------------------------------------------------------
   def create
-    # have a working copy of the params in case Tenant callbacks
-    # make any changes
     tenant_params = sign_up_params_tenant
-    # Если юзер создет организацию, то мы автоматом назначаем его админом
     user_params   = sign_up_params_user.merge({is_admin: true})
     coupon_params = sign_up_params_coupon
 
     sign_out_session!
-    # next two lines prep signup view parameters
     prep_signup_view(tenant_params, user_params, coupon_params)
 
     # validate recaptcha first unless not enabled
@@ -89,34 +73,16 @@ class RegistrationsController < Milia::RegistrationsController
 
   end
 
-  # def create
-
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
-
   protected
 
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
-  # def configure_permitted_parameters
-  #   devise_parameter_sanitizer.for(:sign_up){ |u| u.permit(:name, :email,:plan, :password, :password_confirmation, :token) }
-  # end
-
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
   def sign_up_params_tenant()
     params.require(:tenant).permit(::Milia.whitelist_tenant_params)
   end
 
-  # ------------------------------------------------------------------------------
-  # ------------------------------------------------------------------------------
   def sign_up_params_user()
     params.require(:user).permit(:email, :password, :password_confirmation, :token)
   end
 
-  # ------------------------------------------------------------------------------
-  # sign_up_params_coupon -- permit coupon parameter if used; else params
-  # ------------------------------------------------------------------------------
   def sign_up_params_coupon()
     (::Milia.use_coupon ?
          params.require(:coupon).permit(::Milia.whitelist_coupon_params) :
@@ -124,22 +90,12 @@ class RegistrationsController < Milia::RegistrationsController
     )
   end
 
-  # ------------------------------------------------------------------------------
-  # sign_out_session! -- force the devise session signout
-  # ------------------------------------------------------------------------------
   def sign_out_session!()
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name) if user_signed_in?
   end
 
-  # ------------------------------------------------------------------------------
-  # devise_create -- duplicate of Devise::RegistrationsController
-  # same as in devise gem EXCEPT need to prep signup form variables
-  # ------------------------------------------------------------------------------
   def devise_create(user_params)
-
     build_resource(user_params)
-
-    # if we're using milia's invite_member helpers
     if ::Milia.use_invite_member
       # then flag for our confirmable that we won't need to set up a password
       resource.skip_confirm_change_password = true
@@ -165,19 +121,15 @@ class RegistrationsController < Milia::RegistrationsController
     end
   end
 
-
   def after_sign_up_path_for(resource)
     headers['refresh'] = "0;url=#{root_path}"
     root_path
   end
 
-
   def after_inactive_sign_up_path_for(resource)
     headers['refresh'] = "0;url=#{root_path}"
     root_path
   end
-
-
 
   def log_action(action, resource = nil)
     err_msg = (resource.nil? ? '' : resource.errors.full_messages.uniq.join(", "))
@@ -185,6 +137,4 @@ class RegistrationsController < Milia::RegistrationsController
         "MILIA >>>>> [register user/org] #{action} - #{err_msg}"
     ) unless logger.nil?
   end
-
-
-end # class Registrations
+end 
