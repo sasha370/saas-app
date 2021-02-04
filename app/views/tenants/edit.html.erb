@@ -1,10 +1,7 @@
-<!--При регистрацинам нужно передать открытый ключ, который привяжется к оплате
-т.к. мы работаем с Payment-->
 <script language="JavaScript">
     Stripe.setPublishableKey('<%= Rails.application.credentials.stripe_p_key %>');
 </script>
 
-<!--Форма для Tenant? переходит по пути ( ОБНОВИТЬ), класс формы вставляется из Helpera-->
 <%= form_for @tenant, url: update_plan_path, html: { class: "#{class_name_for_tenant_form(@tenant)}" } do |f| %>
 
   <div class="form-group col-md-12 no-side-padding">
@@ -12,17 +9,11 @@
     <%= f.text_field :name, required: true, class: "form-control" %>
   </div>
 
-
-<!--  Поле для выбора тарифа, если переключаться на premium? то должны поялвляться поля для оплаты -->
   <div class="form-group col-md-12 no-side-padding">
     <%= f.label :plan %>
     <%= f.select :plan, options_for_select(Plan.options, @tenant.plan), {}, require: true, class: "form-control" %>
   </div>
 
-
-
-
-  <!--  Если Оплат небыло то показываем форму для оплаты-->
   <% if @tenant.payment.blank? %>
     <%= fields_for(:payment) do |p| %>
 
