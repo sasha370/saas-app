@@ -1,7 +1,6 @@
 <%- model_class = Project -%>
 <div class="page-header">
   <h3> <%= @project.title %></h3>
-  <!--  возвращаем название организации методом, который написали ранее. Записан  в Helpers-->
   <h3><small>Организация - <%= tenant_name @project.tenant_id %> </small></h3>
 </div>
 
@@ -18,8 +17,6 @@
 <%= render 'artifacts/list', artifacts: @project.artifacts %>
 <br/>
 <br/>
-
-
 
 <%= link_to '< Назад на страницу организации',
             root_path, class: 'btn btn-default' %>
