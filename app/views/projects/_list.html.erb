@@ -3,7 +3,7 @@
 <div class="page-header">
   <h1><%= t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<!--Отображаем таблицу, только если есть проекты-->
+
 <% if @projects.size > 0 %>
   <table class="table table-striped">
     <thead>
@@ -18,8 +18,6 @@
     <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <!--      Сылка переводит на конкретный проект. Адрес ссылки согласно роутинга Tenant/project, дополнительно нужно передать-->
-        <!--      конкретный tenant_id-->
         <td><%= link_to project.title, tenant_project_path(project, tenant_id: @tenant.id), class: "mail-link" %></td>
         <td><%= project.details %></td>
         <td><%= project.expected_completion %></td>
@@ -46,7 +44,6 @@
   <p class="lead">У вас пока нет проектов</p>
 <% end %>
 
-<!--Показываем кнопку, только если User может создавать проекту( проверяем в модели Tenant -->
 <% if @tenant.can_create_projects? %>
   <%= link_to "New project", new_tenant_project_path(tenant_id: @tenant.id),
               :class => 'btn btn-primary' %>
